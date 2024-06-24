@@ -13,7 +13,7 @@ Before you start, make sure you have Node.js and npm installed on your machine.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/rushabhbhatiya21/E-commerce-react.git
+   git clone https://github.com/rushabhbhatiya21/React-ecommerce-Backend.git
    ```
 
 2. Install Backend Dependencies:
