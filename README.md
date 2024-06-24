@@ -27,18 +27,6 @@ Before you start, make sure you have Node.js and npm installed on your machine.
    npm test
    ```
 
-4. Install Frontend Dependencies:
-   ```bash
-   cd ..\Frontend
-   npm install
-   ```
-
-5. Start the frontend server:
-   ```bash
-   npm run dev
-   ```
-
-
 ### Customization Tips:
 
 - **Installation and Usage**: Update installation and usage instructions based on your specific setup or additional features.
