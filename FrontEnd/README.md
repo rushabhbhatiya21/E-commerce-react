@@ -1,6 +1,6 @@
-# My React App
+# SmartMart
 
-Welcome to **My React App**! This project was bootstrapped with Vite and includes React for building user interfaces.
+Welcome to **SmartMart**! This project was bootstrapped with Vite and includes React for building user interfaces.
 
 ## Getting Started
 
