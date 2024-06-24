@@ -7,18 +7,16 @@ const cart = require("./cart")
 
 router
 .post('/register', reg.register_customer)
-.post('/login', cont.clogin)
+.post('/login', cont.customer_login)
 .post('/logout',cont.logout)
 .get('/items',cont.customerAuth,page.items)
 .get('/items/cart',cont.customerAuth,page.cart)
-.get('/items/orders',cont.customerAuth,page.orders)
-.get('/items/orders/:id',page.order)//user visible
-.post('/items/cart',cont.customerAuth,cart.addtocart)//cart
-.post('/items/cart/getdetails',cont.customerAuth,cart.getdetails)
-.post('/items/cart/details',cont.customerAuth,cart.adddetails)
+.post('/items/cart',cont.customerAuth,cart.add_to_cart)//cart
+.post('/items/cart/get_details',cont.customerAuth,cart.get_details)
+.post('/items/cart/details',cont.customerAuth,cart.add_details)
 .post('/items/cart/order',cont.customerAuth,cart.order)
-.put('/items/cart',cont.customerAuth,cart.puttoitem)
-.delete('/items/cart',cont.customerAuth,cart.deletitem)
+.put('/items/cart',cont.customerAuth,cart.put_to_item)
+.delete('/items/cart',cont.customerAuth,cart.delete_item)
 .get('/',(req,res)=>{res.redirect("/login")})
 .get('/*',(req,res)=>{res.send("login")})
 

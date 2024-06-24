@@ -1,30 +1,30 @@
-const cart = require('../model/cart');
-const Cart = cart.cart;
-const cd = require('../model/customerdetail');
-const Cd = cd.details;
-const customer = require('../model/customer');
-const Cus = customer.customer;
-const order = require('../model/order');
-const Order = order.orders;
+const cartModel = require('../model/cart');
+const cart = cartModel.cart;
+const customerDetailsModel = require('../model/customerdetail');
+const customerDetails = customerDetailsModel.details;
+const customerModel = require('../model/customer');
+const customer = customerDetailsModel.customer;
+const orderModel = require('../model/order');
+const order = orderModel.orders;
 const moment = require('moment');
 const path = require('path');
 require('dotenv').config();
 
 
-exports.addtocart = async (req, res) => {
+exports.add_to_cart = async (req, res) => {
   const data = req.body
   var mess = ""
   try {
     const { id, title, username, quantity, price , thumbnail} = data;
-    const db = await Cart.findOne({ username, id })
+    const db = await cart.findOne({ username, id })
     var mess
     if (!db) {
-      await Cart.create({ id, title, username, quantity, price, thumbnail})
+      await cart.create({ id, title, username, quantity, price, thumbnail})
       var mess = "added to the cart"
     }
     else {
-      let doc = await Cart.findOneAndUpdate({ username, id }, { quantity: db.quantity + quantity })
-      doc = await Cart.findOne({ username, id })
+      let doc = await cart.findOneAndUpdate({ username, id }, { quantity: db.quantity + quantity })
+      doc = await cart.findOne({ username, id })
       var mess = "updated Quantity " + doc.quantity
     }
     res.status(200).json({
@@ -39,14 +39,14 @@ exports.addtocart = async (req, res) => {
   }
 }
 
-exports.puttoitem = async (req, res) => {
+exports.put_to_item = async (req, res) => {
   const data = req.body
   try {
     const { id, username, quantity } = data;
     if(quantity>0){
-      await Cart.findOneAndUpdate({ username, id }, { quantity })
+      await cart.findOneAndUpdate({ username, id }, { quantity })
     } else {
-      await Cart.findOneAndDelete({ username, id })
+      await cart.findOneAndDelete({ username, id })
     }
     res.send()
   } catch (err) {
@@ -57,11 +57,11 @@ exports.puttoitem = async (req, res) => {
   }
 }
 
-exports.deletitem = async (req, res) => {
+exports.delete_item = async (req, res) => {
   const data = req.body
   try {
     const { id, username } = data;
-    await Cart.findOneAndDelete({ username, id })
+    await cart.findOneAndDelete({ username, id })
     res.send()
   } catch (err) {
     res.status(401).json({
@@ -71,18 +71,18 @@ exports.deletitem = async (req, res) => {
   }
 }
 
-exports.adddetails = async (req, res) => {
+exports.add_details = async (req, res) => {
   const data = req.body
   try {
     const { username, email, phone , address, paymentMethod} = data;
-    const db = await Cd.findOne({ username })
+    const db = await customerDetails.findOne({ username })
     var mess
     if (!db) {
-      await Cd.create({ username, email, phone, address , paymentMethod})
+      await customerDetails.create({ username, email, phone, address , paymentMethod})
       var mess = "Order Placed And Details Added"
     }
     else {
-        await Cd.findOneAndUpdate({ username }, { email, phone, address, paymentMethod }, { runValidators: true })
+        await customerDetails.findOneAndUpdate({ username }, { email, phone, address, paymentMethod }, { runValidators: true })
         var mess = "Order Placed And Details Updated"
     }
     res.status(200).json({
@@ -96,11 +96,11 @@ exports.adddetails = async (req, res) => {
   }
 }
 
-exports.getdetails = async (req, res) => {
+exports.get_details = async (req, res) => {
   const data = req.body
   try {
     const { username } = data;
-    const db = await Cd.findOne({ username })
+    const db = await customerDetails.findOne({ username })
     var mess
     if (!db) {
       var mess = { email: "", phone: "" }
@@ -122,7 +122,7 @@ exports.getdetails = async (req, res) => {
 exports.order = async (req, res) => {
   const username = req.cookies.user
   try {
-    const cart_list = await Cart.find({ username });
+    const cart_list = await cart.find({ username });
     const dateObj = new Date
     const date = moment(dateObj).format('YYYY-MM-DD');
     var ol = Object.values(cart_list)
@@ -131,9 +131,9 @@ exports.order = async (req, res) => {
     orderlist.forEach(data => {
       cartvalue = cartvalue + (+data.price * +data.quantity)
     })
-    var { email, paymentMethod } = await Cd.findOne({ username })
-    const placed = await Order.create({ username, orderlist, date, cartvalue, email})
-    await Cart.deleteMany({ username })
+    var { email, paymentMethod } = await customerDetails.findOne({ username })
+    const placed = await order.create({ username, orderlist, date, cartvalue, email})
+    await cart.deleteMany({ username })
     res.json({ message: "ok", username, orderlist, date, cartvalue, email, paymentMethod, _id: placed._id})
   }
   catch (err) {

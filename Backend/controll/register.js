@@ -1,5 +1,5 @@
-const model = require('../model/customer');
-const Customer = model.customer;
+const customerModel = require('../model/customer');
+const customer = customerModel.customer;
 
 exports.register_customer = async (req, res) => {
   try {
@@ -10,9 +10,9 @@ exports.register_customer = async (req, res) => {
     if (password.length < 6 || password.length > 12) {
       return res.status(400).json({ message: "Password length must be between 6 to 12" })
     }
-    const db = await Customer.findOne({username})
+    const db = await customer.findOne({username})
     if(!db){
-      await Customer.create({
+      await customer.create({
         username,
         password
       }).then(

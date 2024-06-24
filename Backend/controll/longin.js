@@ -1,5 +1,5 @@
-const cmodel = require('../model/customer');
-const Customer = cmodel.customer;
+const customerModel = require('../model/customer');
+const customer = customerModel.customer;
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const path = require('path');
@@ -13,14 +13,14 @@ exports.logout = async (req, res) => {
 
 
 // customer login
-exports.clogin = async (req, res) => {
+exports.customer_login = async (req, res) => {
   const { username, password } = req.body
   try {
     // Check if username and password is provided
     if (!username || !password) {
       res.send({ message: "Username or Password not present" })
     }
-    const custobj = await Customer.findOne({ username, password })
+    const custobj = await customer.findOne({ username, password })
     if (!custobj) {
       res.status(400).json({ message: "Login not successful, User not found" })
     } else {
