@@ -19,11 +19,7 @@ async function main(){
       console.error('Error connecting to MongoDB Atlas:', error);
     });
 }
-// server.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+
 server.use(cors({credentials:true, origin:"http://localhost:5173"}));
 server.use(cookieParser());
 
@@ -32,5 +28,5 @@ server.use(express.urlencoded({extended: true}));
 server.use("/", router);
 
 server.listen(8081, ()=>{
-    console.log("server started");
+    console.log("Node Server Started successfully...");
 })
